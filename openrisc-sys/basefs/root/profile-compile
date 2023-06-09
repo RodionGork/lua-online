@@ -1,0 +1,14 @@
+export TERM=linux
+
+echo
+echo ==============================
+echo === This is Lua 5.3.6 sandbox ===
+echo
+echo it is built upon OpenRISC browser emulator, with real Linux inside!
+echo enter 'lua' in the command line to start interpreter
+echo
+echo you can also use some advanced tricks like creating program with
+echo editor, e.g. 'vi mycode.lua', and run it 'lua mycode.lua'
+echo
+echo Ready!
+echo
