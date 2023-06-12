@@ -28,6 +28,16 @@ And <a href="https://www.lua.org/pil/">"Programming in Lua" book</a> allows quic
 
 <table id="tty" class="terminal" cellpadding="0" cellspacing="0">
 </table>
+
+<p>
+    <strong>File Exchange</strong><br/>
+    <button onclick="fileup()">^^^ Upload ^^^</button>
+    <input id="filename" type="text" placeholder="filename"/>
+    <button onclick="filedn()">vvv Download vvv</button><br/><br/>
+    <textarea id="filedata" placeholder="file content" cols="40" rows="20"></textarea>
+</p>
+
+
 </center>
 <script src="jor1k-master-min.js"></script>
 
@@ -35,6 +45,9 @@ And <a href="https://www.lua.org/pil/">"Programming in Lua" book</a> allows quic
 
 var Jor1k = require("Jor1k");
 var LinuxTerm = require("LinuxTerm");
+
+var fname = document.getElementById('filename');
+var fdata = document.getElementById('filedata');
 
 jor1kgui = new Jor1k(
     {
@@ -47,7 +60,29 @@ jor1kgui = new Jor1k(
             basefsURL: "basefs-compile.json",
             extendedfsURL: "fs.json"
         }
+    }
+);
+
+function fileup() {
+    var name = fname.value;
+    if (name[0] != '/') name = '/home/user/' + name;
+    var data = fdata.value;
+    jor1kgui.fs.MergeFile(name, data);
+    alert('Ready!\n\nUse "ls" command to list directory and find your file at ' + name);
+}
+
+function filedn() {
+    var name = fname.value;
+    if (name[0] != '/') name = '/home/user/' + name;
+    jor1kgui.fs.ReadFile(name, (resp) => {
+        var s = '';
+        for (var i = 0; i < resp.data.length; i++) {
+            if (resp.data[i] === 0) break;
+            s += String.fromCharCode(resp.data[i]);
+        }
+        fdata.value = s;
     });
+}
 
 </script>
 </body>
